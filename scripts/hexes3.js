@@ -134,3 +134,4 @@ function drawBoard(){
 // http://mayang.com/textures/Stone/html/Other%20Stone/index.html
 
 drawBoard();
+scrollTo(0,1); // hide the top chrome
