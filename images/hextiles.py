@@ -12,6 +12,7 @@ coreimage = ximport("coreimage")
 from math import sin, cos, radians, sqrt, pi
 
 SIZE = 'small'
+#SIZE = 'large'
 
 iphone_radius = 34 # radius of one hex
 ipad_radius = 65
@@ -25,11 +26,18 @@ w = midpoint_distance(ipad_radius) * 2
 h = ipad_radius * 2
 w2 = midpoint_distance(iphone_radius) * 2
 h2 = iphone_radius * 2
-size(w,h)
+if SIZE is 'small':
+    size(w2,h2)
+else:
+    size(w,h)
+
 background(0,0,0,0)
 #speed(1)
 canvas = coreimage.canvas(w,h)
-canvas2 = coreimage.canvas(w2,h2)
+if SIZE is 'small':
+    canvas2 = coreimage.canvas(w2,h2)
+else:
+    canvas2 = coreimage.canvas(w,h)
 angle = pi / 3.0
 
 def point(radius, angle):
@@ -80,7 +88,7 @@ font('Essays1743')
 letter_paths = [font_path(l,s) for (l,s) in let_sizes]
 
 
-def draw(idx):
+def draw(idx, version):
     canvas = coreimage.canvas(w,h)
     bevels = bevel_paths(ipad_radius, 5)
 
@@ -96,18 +104,31 @@ def draw(idx):
 #    b2.blend(70)
     b2.blend(20)
     t = letter_paths[idx]
-    brass = canvas.append('copper.jpg')
+    if version is '_disabled':
+        brass = canvas.append('brass.jpg')
+    elif version is '_selected':
+        brass = canvas.append('copper.jpg')
+    else:
+        brass = canvas.append('brass2.jpg')
     brass.mask.append(t)
     offset = offsets[idx]
     brass.x += offset[0]
     brass.y += offset[1]
     all = canvas2.append(canvas.flatten())
-    all.scale(.52)
-    canvas2.export('%s_%s_selected.png' % (SIZE, letters[idx][0].upper()))
+    if SIZE is 'small':
+        all.scale(.52)
+    canvas2.export('%s_%s%s.png' % (letters[idx][0].upper(), SIZE,version))
     canvas2.draw()
     
 
-for i in range(26):
-    draw(i)
+# for i in range(26):
+#     draw(i, '')
+#     draw(i, '_disabled')
+#     draw(i, '_selected')
 
-#draw(0)
+def letter(idx):
+    draw(idx, '')
+    draw(idx, '_disabled')
+    draw(idx, '_selected')
+
+letter(25)

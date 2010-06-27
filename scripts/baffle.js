@@ -48,7 +48,7 @@ display = function display(board) {
 };
 display_row = function display_row(row) {
   var l, sys;
-  sys = require('sys');
+  // sys = require('sys');
   l = row.length;
   if (l === 3) {
     return sys.puts(("    " + (row[0]) + "  " + (row[1]) + "  " + (row[2])));

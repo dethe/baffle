@@ -1,7 +1,7 @@
 var Boggle, Wordlist, alphabet, bisect_left, bisect_right, chr, compute_neighbors, contains, keys, ord, startsWith, sum, sys;
 var __hasProp = Object.prototype.hasOwnProperty;
 // Just Enough of AIMA to solve Boggle with a 3x hex board, stripping # away all flexibility
-sys = require('sys');
+// sys = require('sys');
 chr = function chr(codePoint) {
   return String.fromCharCode(codePoint);
 };

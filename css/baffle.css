@@ -9,15 +9,29 @@ body{
     height: 100%;
 }
 
-#section{
+.ipad{
+    width: 768px;
+    height: 1024px;
+}
+
+.iphone{
     width: 320px;
     height: 480px;
+}
+
+#section{
     margin: auto;
 }
 
 #board{
-    width: 320px;
-    height: 480px;
-    background-image: url(images/wood.jpg);
+    position: relative;
+}
+
+#board.iphone{
+    background-image: url(../images/wood_iphone.jpg);
+}
+
+#board.ipad{
+    background-image: url(../images/wood_ipad.jpg);
 }
 

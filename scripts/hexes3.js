@@ -1,19 +1,39 @@
-// small hex
-var small_size = {width: 58, height: 68};
-var large_size = {width: 112, height: 130};
+var isiPad = navigator.userAgent.match(/iPad/i) != null;
+var isiPhone = navigator.userAgent.match(/iPhone/i) != null;
+var isiPod = navigator.userAgent.match(/iPod/i) != null;
+
+function $(id){
+    return document.getElementById(id);
+}
+
+var size = 'large';
+if (isiPad || isiPhone){
+    size = 'small';
+    $('section').className = 'iphone';
+    $('board').className = 'iphone';
+}else{
+    $('section').className = 'ipad';
+    $('board').className = 'ipad';
+}
+
+var dimensions = {
+    'small': {width: 58, height: 68}, // iPhone or iPod
+    'large': {width: 112, height: 130} // iPad or other
+};
 
 var board = document.getElementById('board');
 
 function hex(x, y, letter){
     // position a small hex centered on x,y
-    var s = small_size;
+    //var s = small_size;
+    var s = dimensions[size];
     var img = document.createElement('img');
     img.style.width = s.width + 'px';
     img.style.height = s.height + 'px';
     img.style.position = 'absolute';
     img.style.left = x - (s.width / 2) + 'px';
     img.style.top = y - (s.height / 2) + 'px';
-    img.src = 'images/small_' + letter + '.png';
+    img.src = 'images/' + letter + '_' + size + '.png';
     board.appendChild(img);
 }
 
@@ -57,10 +77,18 @@ function radians(degrees){
     return degrees * (Math.PI / 180);
 }
 
-var radius = 34; // radius of one hex
+var radius = 65;
+if (size == 'small'){
+    radius = 34; // radius of one hex
+}
 var spacing = radius + 2;
-var c_x = 160; // center point
-var c_y = 160; // center point
+
+var c_x = 384;
+var c_y = 320;
+if (size == 'small'){
+    c_x = 160; // center point
+    c_y = 160; // center point
+}
 
 function hexrow(count, y, letters){
     var left_offset = c_x - inner_radius(spacing) * (count - 1);
