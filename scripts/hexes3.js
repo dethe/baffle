@@ -7,7 +7,7 @@ function $(id){
 }
 
 var size = 'large';
-if (isiPad || isiPhone){
+if (isiPod || isiPhone){
     size = 'small';
     $('section').className = 'iphone';
     $('board').className = 'iphone';
