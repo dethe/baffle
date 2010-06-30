@@ -47,15 +47,15 @@ display = function display(board) {
   return display_row(board.slice(16, 19));
 };
 display_row = function display_row(row) {
-  var l; //, sys;
+  var l, sys;
   // sys = require('sys');
   l = row.length;
   if (l === 3) {
-//    return sys.puts(("    " + (row[0]) + "  " + (row[1]) + "  " + (row[2])));
+    return sys.puts(("    " + (row[0]) + "  " + (row[1]) + "  " + (row[2])));
   } else if (l === 4) {
-//    return sys.puts(("  " + (row[0]) + "  " + (row[1]) + "  " + (row[2]) + "  " + (row[3])));
+    return sys.puts(("  " + (row[0]) + "  " + (row[1]) + "  " + (row[2]) + "  " + (row[3])));
   } else if (l === 5) {
-//    return sys.puts(("" + (row[0]) + "  " + (row[1]) + "  " + (row[2]) + "  " + (row[3]) + "  " + (row[4])));
+    return sys.puts(("" + (row[0]) + "  " + (row[1]) + "  " + (row[2]) + "  " + (row[3]) + "  " + (row[4])));
   }
 };
 roll = function roll() {
@@ -73,7 +73,7 @@ word = function word(w) {
 };
 play = function play() {
   var _d, _e, _f, b, board, i, solution, sys;
-//  sys = require('sys');
+  sys = require('sys');
   //  board = roll()
   board = 'USEYAOTTWHENXALOKSC'.split('');
   b = new Boggle();
@@ -92,8 +92,8 @@ play = function play() {
   return [board, solution];
 };
 text_display = function text_display() {
-  var _d, _e, _f, _g, _h, board, s, solution;//, sys;
-//  sys = require('sys');
+  var _d, _e, _f, _g, _h, board, s, solution, sys;
+  sys = require('sys');
   _d = play();
   board = _d[0];
   solution = _d[1];
@@ -101,8 +101,8 @@ text_display = function text_display() {
   _e = []; _g = solution;
   for (_f = 0, _h = _g.length; _f < _h; _f++) {
     s = _g[_f];
-//    _e.push(sys.puts(s.replace('Q', 'QU').toLowerCase()));
+    _e.push(sys.puts(s.replace('Q', 'QU').toLowerCase()));
   }
   return _e;
 };
-//text_display();
+text_display();

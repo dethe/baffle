@@ -6,10 +6,6 @@ function $(id){
     return document.getElementById(id);
 }
 
-function $$(sel){
-    return [].slice.call(document.querySelectorAll(sel), 0);
-}
-
 var size = 'large';
 if (isiPod || isiPhone){
     size = 'small';
@@ -27,76 +23,10 @@ var dimensions = {
 
 var board = document.getElementById('board');
 
-var supportsTouch = 'createTouch' in document;
-var path_re = /\/images\/(.)_(large|small).*/;
-
-// Handle touches and clicks
-document.body[supportsTouch ? 'ontouchend' : 'onclick'] =      
-    function(event){
-        var e = event.target;
-        var idx = parseInt(e.id.slice(4), 10);
-        if (hasClass(e, 'hex')){
-            if (hasClass(e, 'normal')){
-                select(e);
-                // set all active hexes to disabled
-                $$('.hex.normal').forEach(function(hex){
-                    disable(hex);
-                });
-                console.log('nodes adjacent to %s are %s', idx, hex_neighbors[idx].join(', '));
-                hex_neighbors[idx].forEach(function(index){
-                    var hex = $('hex_' + index);
-                    if (hasClass(hex, 'disabled')){
-                        console.log('activating hex_' + index);
-                        activate(hex);
-                    }
-                });
-            }
-        }
-    };
-    
-function disable(e){
-    var parts = e.src.match(path_re);
-    var letter = parts[1];
-    var size = parts[2];
-    e.className = 'hex disabled';
-    e.src = 'images/' + letter + '_' + size + '_disabled.png';
-}
-
-function activate(e){
-    var parts = e.src.match(path_re);
-    var letter = parts[1];
-    var size = parts[2];
-    e.className = 'hex normal';
-    e.src = 'images/' + letter + '_' + size + '.png';
-}
-
-function select(e){
-    var parts = e.src.match(path_re);
-    var letter = parts[1];
-    var size = parts[2];
-    e.className = 'hex selected';
-    e.src = 'images/' + letter + '_' + size + '_selected.png';
-}
-
-    
-function hasClass(e, className){
-    var classes = e.className.split(' '); // FIXME to split properly on whitespace
-    var flag = false;
-    classes.forEach(function(cls){
-        if(cls === className){
-            flag = true;
-        }
-    });
-    return flag;
-}
-
-var hexes = [];
-
 function hex(x, y, letter){
     // position a small hex centered on x,y
     //var s = small_size;
     var s = dimensions[size];
-    var idx = hexes.length;
     var img = document.createElement('img');
     img.style.width = s.width + 'px';
     img.style.height = s.height + 'px';
@@ -104,8 +34,6 @@ function hex(x, y, letter){
     img.style.left = x - (s.width / 2) + 'px';
     img.style.top = y - (s.height / 2) + 'px';
     img.src = 'images/' + letter + '_' + size + '.png';
-    img.className = 'hex normal';
-    img.id = 'hex_' + idx;
     board.appendChild(img);
 }
 
@@ -168,11 +96,13 @@ function hexrow(count, y, letters){
     var x, i;
     for (i = 0; i < count; i++){
         x = i * increment + left_offset;
-        hex(x, y, letters[i]);
         hexes.push([x,y]);
+        hex(x, y, letters[i]);
     }
 }
 
+
+var hexes = [];
 
 function drawBoard(){
     // // ctx.fillStyle = '#000';

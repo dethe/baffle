@@ -1,4 +1,4 @@
-var Boggle, Wordlist, alphabet, bisect_left, bisect_right, chr, compute_neighbors, contains, keys, ord, startsWith, sum; //, sys;
+var Boggle, Wordlist, alphabet, bisect_left, bisect_right, chr, compute_neighbors, contains, keys, ord, startsWith, sum, sys;
 var __hasProp = Object.prototype.hasOwnProperty;
 // Just Enough of AIMA to solve Boggle with a 3x hex board, stripping # away all flexibility
 // sys = require('sys');
@@ -80,8 +80,9 @@ sum = function sum(seq) {
   }
   return s;
 };
-var hex_neighbors = [[1, 3, 4], [0, 2, 4, 5], [1, 5, 6], [0, 4, 7, 8], [0, 1, 3, 5, 8, 9], [1, 2, 4, 6, 9, 10], [2, 5, 10, 11], [3, 8, 12], [3, 4, 7, 9, 12, 13], [4, 5, 8, 10, 13, 14], [5, 6, 9, 11, 14, 15], [6, 10, 15], [7, 8, 13, 16], [8, 9, 12, 14, 16, 17], [9, 10, 13, 15, 17, 18], [10, 11, 14, 18], [12, 13, 17], [13, 14, 16, 18], [14, 15, 17]];
-
+compute_neighbors = function compute_neighbors() {
+  return [[1, 3, 4], [0, 2, 4, 5], [1, 5, 6], [0, 4, 7, 8], [0, 1, 3, 5, 8, 9], [1, 2, 4, 6, 9, 10], [2, 5, 10, 11], [3, 8, 12], [3, 4, 7, 9, 12, 13], [4, 5, 8, 10, 13, 14], [5, 6, 9, 11, 14, 15], [6, 10, 15], [7, 8, 13, 16], [8, 9, 12, 14, 16, 17], [9, 10, 13, 15, 17, 18], [10, 11, 14, 18], [12, 13, 17], [13, 14, 16, 18], [14, 15, 17]];
+};
 Array.prototype.toString = function toString() {
   return "[" + (this.join(', ')) + "]";
 };
@@ -97,6 +98,7 @@ Boggle.prototype.solve = function solve(board) {
   var _a, _b, _c, _d, _e, hi, i, lo;
   "Find all the words in the given board";
   this.board = board;
+  this.neighbors = compute_neighbors();
   this.found = {};
   _a = []; _c = 0; _d = board.length;
   for (_b = 0, i = _c; (_c <= _d ? i < _d : i > _d); (_c <= _d ? i += 1 : i -= 1), _b++) {
@@ -135,7 +137,7 @@ Boggle.prototype.toString = function toString() {
 Boggle.scores = [0, 0, 0, 1, 3, 4, 5, 6, 8, 10, 12, 17, 21, 23, 28, 32, 34, 39, 43, 48];
 Boggle.prototype.find = function find(lo, hi, i, visited, sofar) {
   var _a, _b, _c, _d, c, j, prefix, word;
-//  sys.puts(("find(" + lo + ", " + hi + ", " + i + ", " + visited + ", \"" + sofar + "\")"));
+  sys.puts(("find(" + lo + ", " + hi + ", " + i + ", " + visited + ", \"" + sofar + "\")"));
   sofar = sofar.toLowerCase();
   if (!contains(visited, i)) {
     _a = this.lookup(sofar, lo, hi);
@@ -146,7 +148,7 @@ Boggle.prototype.find = function find(lo, hi, i, visited, sofar) {
       visited.push(i);
       c = this.board[i].toLowerCase();
       sofar += c;
-      _c = hex_neighbors[i];
+      _c = this.neighbors[i];
       for (_b = 0, _d = _c.length; _b < _d; _b++) {
         j = _c[_b];
         this.find(prefix, hi, j, visited, sofar);
@@ -157,7 +159,7 @@ Boggle.prototype.find = function find(lo, hi, i, visited, sofar) {
 };
 Boggle.prototype.lookup = function lookup(sofar, lo, hi) {
   var p, word;
-//  sys.puts(("lookup(\"" + sofar + "\", " + lo + ", " + hi + ")"));
+  sys.puts(("lookup(\"" + sofar + "\", " + lo + ", " + hi + ")"));
   p = bisect_left(this.wordlist_words, sofar, lo, hi);
   if (p >= this.wordlist_words.length) {
     return [undefined, undefined];
