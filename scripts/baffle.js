@@ -73,7 +73,7 @@ word = function word(w) {
 };
 play = function play() {
   var _d, _e, _f, b, board, i, solution, sys;
-  sys = require('sys');
+  // sys = require('sys');
   //  board = roll()
   board = 'USEYAOTTWHENXALOKSC'.split('');
   b = new Boggle();
@@ -93,7 +93,7 @@ play = function play() {
 };
 text_display = function text_display() {
   var _d, _e, _f, _g, _h, board, s, solution, sys;
-  sys = require('sys');
+  // sys = require('sys');
   _d = play();
   board = _d[0];
   solution = _d[1];
@@ -105,4 +105,4 @@ text_display = function text_display() {
   }
   return _e;
 };
-text_display();
+//text_display();

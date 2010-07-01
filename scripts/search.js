@@ -89,7 +89,7 @@ Boggle = function Boggle() {
   this.wordlist = new Wordlist();
   this.wordlist_words = this.wordlist.words;
   this.found = {};
-  return this;
+//  return this;
 };
 // Find all the words in a Boggle board.
 // Ex: b = Boggle(); b.solve(); b.solve()

@@ -21,6 +21,7 @@ body{
 
 #section{
     margin: auto;
+    position: relative;
 }
 
 #board{
@@ -34,4 +35,70 @@ body{
 #board.ipad{
     background-image: url(../images/wood_ipad.jpg);
 }
-
+button, #timer{
+    position: absolute;
+    font-family: Georgia;
+    font-size: 20px;
+}
+button{
+    padding: 10px;
+    border-radius: 8px;
+    background-color: goldenrod;
+}
+#timer{
+    position: absolute;
+    top: 5%;
+    left: 5%;
+}
+#new_game{
+    position: absolute;
+    top: 5%;
+    right: 5%;
+}
+#clear{
+    position: absolute;
+    bottom: 45%;
+    left: 5%;
+}
+#accept{
+    position: absolute;
+    bottom: 45%;
+    right: 5%;
+}
+#wordlist{
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 40%;
+}
+#col_0{
+    float: left;
+    width: 30%;
+    height: 100%;
+    margin-left: 2%;
+}
+#col_1{
+    float: left;
+    width: 30%;
+    height: 100%;
+    margin-left: 3%;
+}
+#col_2{
+    float: left;
+    width: 30%;
+    height: 100%;
+    margin-left: 3%;
+}
+.answer, .placeholder, .missed{
+    font-family: Georgia;
+    font-size: 12px;
+    padding-bottom: 4px;
+}
+.answer{
+    font-size: 24px;
+}
+.placeholder{
+    letter-spacing: .4em;
+    padding-left: 10px;
+}

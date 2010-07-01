@@ -1,3 +1,9 @@
+// Known bugs:
+
+// need to make timer a global to reset for new game
+// no notification of wrong word
+// not showing words on accept
+
 var isiPad = navigator.userAgent.match(/iPad/i) != null;
 var isiPhone = navigator.userAgent.match(/iPhone/i) != null;
 var isiPod = navigator.userAgent.match(/iPod/i) != null;
@@ -30,6 +36,11 @@ var board = document.getElementById('board');
 var supportsTouch = 'createTouch' in document;
 var path_re = /\/images\/(.)_(large|small).*/;
 
+var current_word = [];
+var letters = [];
+var words = [];
+var hexes = [];
+
 // Handle touches and clicks
 document.body[supportsTouch ? 'ontouchend' : 'onclick'] =      
     function(event){
@@ -42,17 +53,50 @@ document.body[supportsTouch ? 'ontouchend' : 'onclick'] =
                 $$('.hex.normal').forEach(function(hex){
                     disable(hex);
                 });
-                console.log('nodes adjacent to %s are %s', idx, hex_neighbors[idx].join(', '));
                 hex_neighbors[idx].forEach(function(index){
                     var hex = $('hex_' + index);
                     if (hasClass(hex, 'disabled')){
-                        console.log('activating hex_' + index);
                         activate(hex);
                     }
                 });
             }
         }
     };
+    
+function clear(){
+    $$('.hex').forEach(function(hex){
+        activate(hex);
+    });
+    current_word = [];
+}
+
+function accept(){
+    var new_word = current_word.join('');
+    var success = false;
+    words.forEach(function(word, idx){
+        if (new_word == word){
+            var word_view = $('word_' + idx);
+            word_view.innerHTML = word;
+            word_view.className = 'answer';
+            success = true;
+        }
+    });
+    if (success){
+        if (did_we_win()){
+            end_game();
+        }
+    }else{
+        // do something to show it failed
+    }
+    clear();
+}
+
+function did_we_win(){
+    if ($$('placeholder').length < 1){
+        return true;
+    }
+    return false;
+}
     
 function disable(e){
     var parts = e.src.match(path_re);
@@ -74,6 +118,7 @@ function select(e){
     var parts = e.src.match(path_re);
     var letter = parts[1];
     var size = parts[2];
+    current_word.push(letter == 'q'? 'qu': letter.toLowerCase());
     e.className = 'hex selected';
     e.src = 'images/' + letter + '_' + size + '_selected.png';
 }
@@ -89,8 +134,6 @@ function hasClass(e, className){
     });
     return flag;
 }
-
-var hexes = [];
 
 function hex(x, y, letter){
     // position a small hex centered on x,y
@@ -173,7 +216,6 @@ function hexrow(count, y, letters){
     }
 }
 
-
 function drawBoard(){
     // // ctx.fillStyle = '#000';
     // // ctx.fillRect(0,0,320,480);
@@ -185,11 +227,35 @@ function drawBoard(){
     hexrow(5, c_y, board.slice(7,12));
     hexrow(4, c_y + (spacing * 1.5), board.slice(12,16));
     hexrow(3, c_y + (spacing * 3), board.slice(16,19));
+    return board;
 }
 
+function show_placeholders(words_obj){
+    var wordlist = [];
+    for (word in words_obj){
+        if (word){
+            wordlist.push(word);
+        }
+    }
+    wordlist.sort();
+    words = wordlist; // set global var
+    var columns = $$('.column');
+    for (var i = 0; i < wordlist.length; i++){
+        var word = document.createElement('div');
+        word.className = 'placeholder';
+        word.id = 'word_' + i;
+        word.innerHTML = placeholder(wordlist[i]);
+        columns[i % 3].appendChild(word);
+    }
+}
 
-
-
+function placeholder(word){
+    var value = [];
+    for (var i = 0; i < word.length; i++){
+        value.push('\u20E3');
+    }
+    return value.join('');
+}
 
 // Wood texture from
 // http://www.flickr.com/photos/mattandrewsimage/3458080999/
@@ -203,5 +269,66 @@ function drawBoard(){
 // Stone texture from
 // http://mayang.com/textures/Stone/html/Other%20Stone/index.html
 
-drawBoard();
-scrollTo(0,1); // hide the top chrome
+function track_time(t){
+    if (!t.expired()){
+        $('timer').innerHTML = t;
+    }else{
+        $('timer').innerHTML = '0:00';
+        clearInterval(t.interval);
+        end_game();
+    }
+}
+
+function end_game(){
+    console.log('end game');
+}
+
+
+function new_game(){
+    letters = drawBoard(); // set global var
+    scrollTo(0,1); // hide the top chrome
+    var b = new Boggle();
+    b.solve(letters);
+    show_placeholders(b.found);
+    var t = new Timer(180);
+    $('timer').innerHTML = t;
+    t.interval = setInterval(function(){track_time(t);}, 1000);
+}
+
+function Timer(seconds){
+    this.total = seconds;
+    this.start = new Date().getSeconds();
+}
+Timer.prototype.elapsed = function(){
+    return new Date().getSeconds() - this.start;
+};
+Timer.prototype.expired = function(){
+    if ((this.total - this.elapsed()) < 1){
+        return true;
+    }
+    return false;
+};
+Timer.prototype.toString = function(){
+    var expired = this.total - this.elapsed();
+    var seconds = expired % 60;
+    var minutes = (expired - seconds) / 60;
+    var padding = '';
+    if (seconds < 10){
+        padding = '0';
+    }
+    return [minutes,':',padding,seconds].join('');
+};
+
+$('new_game')[supportsTouch ? 'ontouchend' : 'onclick'] = function(){
+    new_game();
+};
+
+$('clear')[supportsTouch ? 'ontouchend' : 'onclick'] = function(){
+    clear();
+};
+
+$('accept')[supportsTouch ? 'ontouchend' : 'onclick'] = function(){
+    accept();
+};
+
+new_game();
