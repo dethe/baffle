@@ -1,9 +1,3 @@
-// Known bugs:
-
-// need to make timer a global to reset for new game
-// no notification of wrong word
-// not showing words on accept
-
 var isiPad = navigator.userAgent.match(/iPad/i) != null;
 var isiPhone = navigator.userAgent.match(/iPhone/i) != null;
 var isiPod = navigator.userAgent.match(/iPod/i) != null;
@@ -74,6 +68,7 @@ function accept(){
     var new_word = current_word.join('');
     var success = false;
     words.forEach(function(word, idx){
+        console.log('"' + new_word + '" ?= "' + word + '"');
         if (new_word == word){
             var word_view = $('word_' + idx);
             word_view.innerHTML = word;
@@ -86,13 +81,14 @@ function accept(){
             end_game();
         }
     }else{
+        console.log(new_word + ' is not a word');
         // do something to show it failed
     }
     clear();
 }
 
 function did_we_win(){
-    if ($$('placeholder').length < 1){
+    if ($$('.placeholder').length < 1){
         return true;
     }
     return false;
@@ -230,21 +226,15 @@ function drawBoard(){
     return board;
 }
 
-function show_placeholders(words_obj){
-    var wordlist = [];
-    for (word in words_obj){
-        if (word){
-            wordlist.push(word);
-        }
-    }
-    wordlist.sort();
-    words = wordlist; // set global var
+function show_placeholders(words){
     var columns = $$('.column');
     for (var i = 0; i < wordlist.length; i++){
         var word = document.createElement('div');
-        word.className = 'placeholder';
+//        word.className = 'placeholder';
+        word.className = 'answer';
         word.id = 'word_' + i;
-        word.innerHTML = placeholder(wordlist[i]);
+//        word.innerHTML = placeholder(wordlist[i]);
+        word.innerHTML = wordlist[i];
         columns[i % 3].appendChild(word);
     }
 }
@@ -289,7 +279,8 @@ function new_game(){
     scrollTo(0,1); // hide the top chrome
     var b = new Boggle();
     b.solve(letters);
-    show_placeholders(b.found);
+    words = b.words(); // set global var
+    show_placeholders(words);
     var t = new Timer(180);
     $('timer').innerHTML = t;
     t.interval = setInterval(function(){track_time(t);}, 1000);

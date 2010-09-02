@@ -8,15 +8,16 @@ chr = function chr(codePoint) {
 ord = function ord(str) {
   return str.charCodeAt(0);
 };
-keys = function keys(dict) {
-  var _a, k, key;
-  k = [];
-  _a = dict;
-  for (key in _a) { if (__hasProp.call(_a, key)) {
-    k.push(key);
-  }}
-  return k;
-};
+function keys(dict){
+    var wordlist = [];
+    for (word in dict){
+        if (word){
+            wordlist.push(word);
+        }
+    }
+    wordlist.sort();
+    return wordlist;
+}
 contains = function contains(arr, item) {
   var _a, _b, _c, i, value;
   value = false;
