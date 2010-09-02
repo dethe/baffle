@@ -1,21 +1,22 @@
-var Boggle, Wordlist, alphabet, bisect_left, bisect_right, chr, compute_neighbors, contains, keys, ord, startsWith, sum; //, sys;
+var Boggle, Wordlist, alphabet, bisect_left, bisect_right, compute_neighbors, contains, startsWith, sum; //, sys;
 var __hasProp = Object.prototype.hasOwnProperty;
 // Just Enough of AIMA to solve Boggle with a 3x hex board, stripping # away all flexibility
 // sys = require('sys');
-chr = function chr(codePoint) {
+function chr(codePoint) {
   return String.fromCharCode(codePoint);
 };
-ord = function ord(str) {
+function ord(str) {
   return str.charCodeAt(0);
 };
 function keys(dict){
+    var key;
     var wordlist = [];
-    for (word in dict){
-        if (word){
-            wordlist.push(word);
+    for (key in dict){
+        if (__hasProp.call(dict, key)){
+            wordlist.push(key);
         }
     }
-    wordlist.sort();
+    wordlist.lengthsort();
     return wordlist;
 }
 contains = function contains(arr, item) {
@@ -86,6 +87,14 @@ var hex_neighbors = [[1, 3, 4], [0, 2, 4, 5], [1, 5, 6], [0, 4, 7, 8], [0, 1, 3,
 Array.prototype.toString = function toString() {
   return "[" + (this.join(', ')) + "]";
 };
+
+Array.prototype.lengthsort = function lengthsort(){
+    this.sort();
+    this.sort(function(a,b){
+        return a.length > b.length;
+    });
+};
+
 Boggle = function Boggle() {
   this.wordlist = new Wordlist();
   this.wordlist_words = this.wordlist.words;
@@ -146,6 +155,9 @@ Boggle.prototype.find = function find(lo, hi, i, visited, sofar) {
       word ? (this.found[word] = 1) : null;
       visited.push(i);
       c = this.board[i].toLowerCase();
+      if (c == 'q'){
+          c = 'qu';
+      }
       sofar += c;
       _c = hex_neighbors[i];
       for (_b = 0, _d = _c.length; _b < _d; _b++) {

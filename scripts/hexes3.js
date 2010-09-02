@@ -65,10 +65,10 @@ function clear(){
 }
 
 function accept(){
-    var new_word = current_word.join('');
+    var new_word = current_word.join('').replace('q', 'qu');
     var success = false;
     words.forEach(function(word, idx){
-        console.log('"' + new_word + '" ?= "' + word + '"');
+        // console.log('"' + new_word + '" ?= "' + word + '"');
         if (new_word == word){
             var word_view = $('word_' + idx);
             word_view.innerHTML = word;
@@ -78,10 +78,11 @@ function accept(){
     });
     if (success){
         if (did_we_win()){
-            end_game();
+            //end_game();
         }
     }else{
-        console.log(new_word + ' is not a word');
+        alert(new_word + ' is not a word');
+        //console.log(new_word + ' is not a word');
         // do something to show it failed
     }
     clear();
@@ -228,13 +229,13 @@ function drawBoard(){
 
 function show_placeholders(words){
     var columns = $$('.column');
-    for (var i = 0; i < wordlist.length; i++){
+    for (var i = 0; i < words.length; i++){
         var word = document.createElement('div');
-//        word.className = 'placeholder';
-        word.className = 'answer';
+        word.className = 'placeholder';
+//        word.className = 'answer';
         word.id = 'word_' + i;
-//        word.innerHTML = placeholder(wordlist[i]);
-        word.innerHTML = wordlist[i];
+        word.innerHTML = placeholder(words[i]);
+//        word.innerHTML = words[i];
         columns[i % 3].appendChild(word);
     }
 }
