@@ -81,7 +81,7 @@ function accept(){
             //end_game();
         }
     }else{
-        alert(new_word + ' is not a word');
+        //alert(new_word + ' is not a word');
         //console.log(new_word + ' is not a word');
         // do something to show it failed
     }
