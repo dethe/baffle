@@ -45,12 +45,34 @@ button{
     border-radius: 8px;
     background-color: goldenrod;
 }
-#timer{
+#time_remaining{
     position: absolute;
     top: 5%;
     left: 5%;
 }
+#message{
+    position: absolute;
+    color: yellow;
+    top: 8%;
+    left: 5%;
+    opacity: 0;
+     -webkit-transition: opacity 1s ease-in;
+     -moz-transition: opacity 1s ease-in;
+     transition: opacity 1s ease-in;
+}
+.showmessage{
+    opacity: 1 !important;
+}
+.hidemessage{
+    opacity: 0 !important;
+}
 #new_game{
+    display: none;
+    position: absolute;
+    top: 5%;
+    right: 5%;
+}
+#give_up{
     position: absolute;
     top: 5%;
     right: 5%;
@@ -97,6 +119,9 @@ button{
 }
 .answer{
     font-size: 24px;
+}
+.missed{
+    color: red;
 }
 .placeholder{
     letter-spacing: .4em;

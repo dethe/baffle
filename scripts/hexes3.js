@@ -64,6 +64,19 @@ function clear(){
     current_word = [];
 }
 
+function message(text){
+    $('message').innerText = text;
+    $('message').className = 'showmessage';
+    console.log('showing message');
+}
+
+$('message').addEventListener('webkitTransitionEnd', function( event ) { 
+    if(event.target.className == 'showmessage'){
+        event.target.className = 'hidemessage';
+        console.log('hiding message');
+    }
+}, false);
+
 function accept(){
     var new_word = current_word.join('').replace('q', 'qu');
     var success = false;
@@ -71,19 +84,17 @@ function accept(){
         // console.log('"' + new_word + '" ?= "' + word + '"');
         if (new_word == word){
             var word_view = $('word_' + idx);
-            word_view.innerHTML = word;
-            word_view.className = 'answer';
+            show_answer(word_view, 'correct');
             success = true;
+            message('correct: ' + word);
         }
     });
     if (success){
         if (did_we_win()){
-            //end_game();
+            end_game();
         }
     }else{
-        //alert(new_word + ' is not a word');
-        //console.log(new_word + ' is not a word');
-        // do something to show it failed
+        message(new_word + ' is not a word');
     }
     clear();
 }
@@ -235,8 +246,18 @@ function show_placeholders(words){
 //        word.className = 'answer';
         word.id = 'word_' + i;
         word.innerHTML = placeholder(words[i]);
+        word.setAttribute('data_word',words[i]);
 //        word.innerHTML = words[i];
         columns[i % 3].appendChild(word);
+    }
+}
+
+function show_answer(elem, cls){
+    if (hasClass(elem, 'answer')){
+        message('you already found ' + elem.getAttribute('data_word'));
+    }else{
+        elem.className = 'answer ' + cls;
+        elem.innerHTML = elem.getAttribute('data_word');
     }
 }
 
@@ -271,7 +292,10 @@ function track_time(t){
 }
 
 function end_game(){
-    console.log('end game');
+    $('give_up').style.display = 'none';
+    $('new_game').style.display = 'inline';
+    $$('.placeholder').forEach(show_answer, 'missed');
+    // console.log('end game');
 }
 
 
@@ -309,6 +333,10 @@ Timer.prototype.toString = function(){
         padding = '0';
     }
     return [minutes,':',padding,seconds].join('');
+};
+
+$('give_up')[supportsTouch ? 'ontouchend' : 'onclick'] = function(){
+    end_game();
 };
 
 $('new_game')[supportsTouch ? 'ontouchend' : 'onclick'] = function(){
