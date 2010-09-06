@@ -6,35 +6,41 @@
 //  12 13  14  15
 //    16  17 18
 // fisherYates shuffle from http://sedition.com/perl/javascript-fy.html
-function shuffle(arr) {
-  var _a, i, j;
-  i = arr.length;
-  if ((i > 1)) {
-    while (--i) {
-      j = Math.floor(Math.random() * (i + 1));
-      _a = [arr[j], arr[i]];
-      arr[i] = _a[0];
-      arr[j] = _a[1];
+
+function random(a,b){
+    // 'Returns an integer between a and b, inclusive';
+    // 'If b is not specified, returns an integer between 0 and a';
+    if (b === undefined){
+        b = a;
+        a = 0;
     }
-  }
-  return arr;
+    return Math.floor(Math.random() * (b-a + 1)) + a;
+}
+
+function exchange(arr, i, j){
+    var temp = [arr[i], arr[j]];
+    arr[j] = temp[0];
+    arr[i] = temp[1];
+}
+
+function shuffle(arr){
+    arr.forEach(function(_, idx){
+        exchange(arr, idx, random(arr.length - 1));
+    });
+    return arr;
 };
+
 // Define the boggle dice:
 var default_dice = ['QHIMNU', 'AOOTTW', 'ACHOPS', 'DEILRX', 'ABEEGN', 'CMTIOU', 'WHTREV', 'EENIUS', 'WEEHNG', 'SSTIOE', 'OOBBAJ', 'IDTSYT', 'PFSFAK', 'RNHLNZ', 'LYRDEV', 'TYTREL', 'ACDORS', 'EBNITS', 'LEAMGI'];
-var die;
+
 for (var i = 0; i < default_dice.length; i++) {
-  die = default_dice[i];
-  die.split('');
+  var die = default_dice[i];
+  default_dice[i] = die.split('');
 }
 
 function shake(dice) {
-  var _d, _e, _f;
-  _e = dice;
-  for (_d = 0, _f = _e.length; _d < _f; _d++) {
-    die = _e[_d];
-    shuffle(die);
-  }
-  return shuffle(dice);
+    dice.forEach(shuffle);
+    return shuffle(dice);
 };
 
 function display(board) {
@@ -62,10 +68,10 @@ function roll() {
   var rand_dice = shake(default_dice);
   for (var i = 0; i < rand_dice.length; i++) {
     var die = rand_dice[i];
-    var letter_idx = Math.floor(Math.random() * (die.length + 1));
-    letters.push(die[letter_idx]);
+    // var letter_idx = Math.floor(Math.random() * (die.length + 1));
+    letters.push(die[0]);
   }
-  return _d;
+  return letters;
 };
 
 function word(w) {

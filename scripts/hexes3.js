@@ -47,6 +47,7 @@ document.body[supportsTouch ? 'ontouchend' : 'onclick'] =
                 $$('.hex.normal').forEach(function(hex){
                     disable(hex);
                 });
+                console.log('hex_neighbors[' + idx + '] = %o', hex_neighbors[idx]);
                 hex_neighbors[idx].forEach(function(index){
                     var hex = $('hex_' + index);
                     if (hasClass(hex, 'disabled')){
@@ -67,13 +68,12 @@ function clear(){
 function message(text){
     $('message').innerText = text;
     $('message').className = 'showmessage';
-    console.log('showing message');
+    console.log('showing message: ' + text);
 }
 
 $('message').addEventListener('webkitTransitionEnd', function( event ) { 
     if(event.target.className == 'showmessage'){
         event.target.className = 'hidemessage';
-        console.log('hiding message');
     }
 }, false);
 
@@ -130,7 +130,6 @@ function select(e){
     e.className = 'hex selected';
     e.src = 'images/' + letter + '_' + size + '_selected.png';
 }
-
     
 function hasClass(e, className){
     var classes = e.className.split(' '); // FIXME to split properly on whitespace
@@ -294,7 +293,7 @@ function track_time(t){
 function end_game(){
     $('give_up').style.display = 'none';
     $('new_game').style.display = 'inline';
-    $$('.placeholder').forEach(show_answer, 'missed');
+    $$('.placeholder').forEach(function(e){show_answer(e, 'missed');});
     // console.log('end game');
 }
 
@@ -302,6 +301,9 @@ function end_game(){
 function new_game(){
     letters = drawBoard(); // set global var
     scrollTo(0,1); // hide the top chrome
+    $$('.column').forEach(function(e){
+        e.innerHTML = '';
+    });
     var b = new Boggle();
     b.solve(letters);
     words = b.words(); // set global var
