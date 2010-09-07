@@ -308,6 +308,7 @@ function new_game(){
     b.solve(letters);
     words = b.words(); // set global var
     show_placeholders(words);
+    var scroller = new TouchScroll(document.querySelector("#wordlist"), {elastic: true});
     var t = new Timer(180);
     $('timer').innerHTML = t;
     t.interval = setInterval(function(){track_time(t);}, 1000);
