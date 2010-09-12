@@ -92,9 +92,9 @@ Array.prototype.toString = function toString() {
 };
 
 Array.prototype.lengthsort = function lengthsort(){
-    this.sort();
+    this.sort(); // put list in alphabetical order
     this.sort(function(a,b){
-        return a.length > b.length;
+        return a.length - b.length; // stable sort by length
     });
 };
 

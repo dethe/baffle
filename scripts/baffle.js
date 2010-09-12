@@ -87,31 +87,13 @@ function play() {
   b = new Boggle();
   b.solve(board);
   solution = keys(b.found);
-  solution.sort();
+  // solution.sort();
   _e = 0; _f = board.length;
   for (_d = 0, i = _e; (_e <= _f ? i < _f : i > _f); (_e <= _f ? i += 1 : i -= 1), _d++) {
     if (board[i] === 'Q') {
       board[i] = 'Qu';
-      //  display(board)
-      //  for s in solution
-      //      sys.puts(s.replace('Q', 'QU').toLowerCase())
     }
   }
   return [board, solution];
 };
 
-function text_display() {
-  var _d, _e, _f, _g, _h, board, s, solution, sys;
-  // sys = require('sys');
-  _d = play();
-  board = _d[0];
-  solution = _d[1];
-  display(board);
-  _e = []; _g = solution;
-  for (_f = 0, _h = _g.length; _f < _h; _f++) {
-    s = _g[_f];
-    _e.push(sys.puts(s.replace('Q', 'QU').toLowerCase()));
-  }
-  return _e;
-};
-//text_display();

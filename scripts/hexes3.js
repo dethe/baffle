@@ -1,6 +1,7 @@
 var isiPad = navigator.userAgent.match(/iPad/i) != null;
 var isiPhone = navigator.userAgent.match(/iPhone/i) != null;
 var isiPod = navigator.userAgent.match(/iPod/i) != null;
+var isiOS = isiPad || isiPhone || isiPod;
 
 function $(id){
     return document.getElementById(id);
@@ -297,6 +298,9 @@ function end_game(){
     // console.log('end game');
 }
 
+function cstyle(node, rule){
+    return parseInt(window.getComputedStyle(node)[rule].slice(0,-2), 10);
+}
 
 function new_game(){
     letters = drawBoard(); // set global var
@@ -307,9 +311,14 @@ function new_game(){
     var b = new Boggle();
     b.solve(letters);
     words = b.words(); // set global var
+    var wordlist = $('wordlist');
+//    wordlist.style.height = '';
     show_placeholders(words);
-    var scroller = new TouchScroll(document.querySelector("#wordlist"), {elastic: true});
-    var t = new Timer(180);
+//    wordlist.style.height = cstyle(wordlist, 'height') + 'px';
+    if (isiOS){
+        var scroller = new TouchScroll(wordlist, {elastic: true});
+    }
+    window.t = new Timer(180);
     $('timer').innerHTML = t;
     t.interval = setInterval(function(){track_time(t);}, 1000);
 }
