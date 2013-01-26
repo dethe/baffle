@@ -12,7 +12,7 @@ function $$(sel){
 }
 
 var size = 'large';
-if (isiPod || isiPhone){
+if (window.innerWidth < 768){
     size = 'small';
     $('section').className = 'iphone';
     $('board').className = 'iphone';
@@ -37,7 +37,7 @@ var words = [];
 var hexes = [];
 
 // Handle touches and clicks
-document.body[supportsTouch ? 'ontouchend' : 'onclick'] =      
+document.body[supportsTouch ? 'ontouchend' : 'onclick'] =
     function(event){
         var e = event.target;
         var idx = parseInt(e.id.slice(4), 10);
@@ -58,7 +58,7 @@ document.body[supportsTouch ? 'ontouchend' : 'onclick'] =
             }
         }
     };
-    
+
 function clear(){
     $$('.hex').forEach(function(hex){
         activate(hex);
@@ -72,7 +72,7 @@ function message(text){
     console.log('showing message: ' + text);
 }
 
-$('message').addEventListener('webkitTransitionEnd', function( event ) { 
+$('message').addEventListener('webkitTransitionEnd', function( event ) {
     if(event.target.className == 'showmessage'){
         event.target.className = 'hidemessage';
     }
@@ -106,7 +106,7 @@ function did_we_win(){
     }
     return false;
 }
-    
+
 function disable(e){
     var parts = e.src.match(path_re);
     var letter = parts[1];
@@ -131,7 +131,7 @@ function select(e){
     e.className = 'hex selected';
     e.src = 'images/' + letter + '_' + size + '_selected.png';
 }
-    
+
 function hasClass(e, className){
     var classes = e.className.split(' '); // FIXME to split properly on whitespace
     var flag = false;

@@ -1,0 +1,13 @@
+{
+  "name": "Baffle",
+  "description": "Hex Word Game",
+  "launch_path": "/index.html",
+  "icons": {
+    "128": "/images/a_large.png"
+  },
+  "developer": {
+    "name": "Dethe Elza",
+    "url": "http://livingcode.org"
+  },
+  "default_locale": "en"
+}

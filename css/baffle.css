@@ -1,7 +1,7 @@
 *{
     margin: 0px;
     border: 0px;
-    padding: 0px;   
+    padding: 0px;
 }
 
 body{
@@ -45,16 +45,30 @@ button{
     border-radius: 8px;
     background-color: goldenrod;
 }
+
+.iphone button{
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 10px;
+}
+
+.iphone #timer{
+    font-size: 14px;
+}
+
 #time_remaining{
     position: absolute;
-    top: 5%;
-    left: 5%;
+    top: 5px;
+    left: 10px;
+}
+.iphone #time_remaining{
+    font-size: 14px;
 }
 #message{
     position: absolute;
     color: yellow;
-    top: 8%;
-    left: 5%;
+    top: 20px;
+    left: 10px;
     opacity: 0;
      -webkit-transition: opacity 1s ease-in;
      -moz-transition: opacity 1s ease-in;
@@ -69,30 +83,30 @@ button{
 #new_game{
     display: none;
     position: absolute;
-    top: 5%;
-    right: 5%;
+    top: 10px;
+    right: 10px;
 }
 #give_up{
     position: absolute;
-    top: 5%;
-    right: 5%;
+    top: 10px;
+    right: 10px;
 }
 #clear{
     position: absolute;
-    bottom: 45%;
-    left: 5%;
+    bottom: 42%;
+    left: 10px;
 }
 #accept{
     position: absolute;
-    bottom: 45%;
-    right: 5%;
+    bottom: 42%;
+    right: 10px;
 }
 #wordlist{
     position: absolute;
     left: 0px;
-    bottom: 0px;
+    bottom: 10px;
     width: 100%;
-    height: 40%;
+    height: 35%;
     overflow: auto;
 /*    display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -121,6 +135,9 @@ button{
     font-size: 12px;
     padding-bottom: 4px;
 }
+.iphone .answer, .iphone .placeholder,  .iphone .missed
+    font-size: 10px;
+}
 .answer{
     font-size: 24px;
 }
@@ -130,4 +147,7 @@ button{
 .placeholder{
     letter-spacing: .4em;
     padding-left: 10px;
+}
+.iphone .placeholder{
+    padding-left: 12px;
 }
