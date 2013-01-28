@@ -53,16 +53,18 @@ button{
 }
 
 .iphone #timer{
-    font-size: 14px;
+    color: white;
+    font-size: 12px;
 }
 
 #time_remaining{
+    color: white;
     position: absolute;
-    top: 5px;
+    top: 3px;
     left: 10px;
 }
 .iphone #time_remaining{
-    font-size: 14px;
+    font-size: 12px;
 }
 #message{
     position: absolute;
@@ -135,13 +137,15 @@ button{
     font-size: 12px;
     padding-bottom: 4px;
 }
-.iphone .answer, .iphone .placeholder,  .iphone .missed
+.iphone .answer, .iphone .placeholder,  .iphone .missed{
     font-size: 10px;
 }
-.answer{
-    font-size: 24px;
+.correct{
+    font-size: 20px;
+    color:#0c0;
 }
 .missed{
+    font-size: 20px;
     color: red;
 }
 .placeholder{

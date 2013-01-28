@@ -318,17 +318,17 @@ function new_game(){
     if (isiOS){
         var scroller = new TouchScroll(wordlist, {elastic: true});
     }
-    window.t = new Timer(180);
+    window.t = new Timer(300);
     $('timer').innerHTML = t;
     t.interval = setInterval(function(){track_time(t);}, 1000);
 }
 
 function Timer(seconds){
     this.total = seconds;
-    this.start = new Date().getSeconds();
+    this.start = Math.floor(new Date().valueOf() / 1000);
 }
 Timer.prototype.elapsed = function(){
-    return new Date().getSeconds() - this.start;
+    return Math.floor(new Date().valueOf() / 1000) - this.start;
 };
 Timer.prototype.expired = function(){
     if ((this.total - this.elapsed()) < 1){
@@ -352,7 +352,8 @@ $('give_up')[supportsTouch ? 'ontouchend' : 'onclick'] = function(){
 };
 
 $('new_game')[supportsTouch ? 'ontouchend' : 'onclick'] = function(){
-    new_game();
+    location.reload();
+    // new_game();
 };
 
 $('clear')[supportsTouch ? 'ontouchend' : 'onclick'] = function(){
