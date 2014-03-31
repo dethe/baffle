@@ -2,13 +2,13 @@
   "version": "0.1",
   "name": "Baffle",
   "description": "Hex-based word search game",
-  "launch_path": "/index.html",
+  "launch_path": "/baffle/index.html",
   "icons": {
-    "32": "images/icon_32.png",
-    "60": "images/icon_60.png",
-    "90": "images/icon_90.png",
-    "120": "images/icon_120.png",
-    "256": "images/icon_256.png"
+    "32": "/baffle/images/icon_32.png",
+    "60": "/baffle/images/icon_60.png",
+    "90": "/baffle/images/icon_90.png",
+    "120": "/baffle/images/icon_120.png",
+    "256": "/baffle/images/icon_256.png"
   },
   "developer": {
     "name": "Dethe Elza",
