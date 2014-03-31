@@ -2,7 +2,7 @@
   "version": "0.1",
   "name": "Baffle",
   "description": "Hex-based word search game",
-  "launch_path": "/index.html",
+  "launch_path": "index.html",
   "icons": {
     "32": "images/icon_32.png",
     "60": "images/icon_60.png",
